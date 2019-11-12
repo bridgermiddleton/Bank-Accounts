@@ -1,0 +1,33 @@
+@model UserAndTransactionViewModel;
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1 class="display-3">Welcome, @Model.TheUser.FirstName!</h1>
+        <h2>Current Balance: $@Model.Balance</h2>
+        <form asp-action="MakeTransaction" asp-controller="Home" method="POST">
+            <span asp-validation-for="Balance"></span>
+            <input asp-for="Balance" type="hidden">
+            Deposit/Withdraw:<input asp-for="TheTransaction.Amount">
+            <button class="btn btn-success" type="submit">Submit</button>
+        </form>
+        <form asp-action="Logout" asp-controller="Home" method="POST">
+            <button class="btn btn-danger" type="submit">Logout</button>
+        </form>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Transaction transaction in Model.TheUser.TransactionsMade)
+            {
+                <tr>
+                    <td>$@transaction.Amount</td>
+                    <td>@transaction.CreatedAt</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
